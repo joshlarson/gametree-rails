@@ -20,23 +20,18 @@ class PlayersController < ApplicationController
   end
 
   def create
+    email = params[:player][:email]
+    handle = params[:player][:handle]
+
     player = Player.new(
-      :email => params[:player][:email],
-      :handle => params[:player][:handle],
+      :email => email,
+      :handle => handle,
     )
 
     respond_to do |format|
       if player.valid?
         player.save!
-        Braintree::Configuration.environment = :sandbox
-        Braintree::Configuration.merchant_id = ENV["BT_MERCHANT_ID"]
-        Braintree::Configuration.public_key = ENV["BT_PUBLIC_KEY"]
-        Braintree::Configuration.private_key = ENV["BT_PRIVATE_KEY"]
-
-        Braintree::Customer.create(
-          :email => player.email,
-          :id => player.handle,
-        )
+        BraintreeService.new.create_customer(handle, email)
         format.json { render :json => player }
       else
         format.json { render :json => player.errors, :status => 422 }
