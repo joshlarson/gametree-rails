@@ -2,9 +2,14 @@ class PlayersController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    email = params[:email]
-    player = Player.where(:email => email).first
+    _respond_with_player Player.where(:email => params[:email]).first
+  end
 
+  def show
+    _respond_with_player Player.where(:id => params[:id]).first
+  end
+
+  def _respond_with_player player
     respond_to do |format|
       if player
         format.json { render :json => player }
