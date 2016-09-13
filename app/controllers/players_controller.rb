@@ -28,6 +28,15 @@ class PlayersController < ApplicationController
     respond_to do |format|
       if player.valid?
         player.save!
+        Braintree::Configuration.environment = :sandbox
+        Braintree::Configuration.merchant_id = ENV["BT_MERCHANT_ID"]
+        Braintree::Configuration.public_key = ENV["BT_PUBLIC_KEY"]
+        Braintree::Configuration.private_key = ENV["BT_PRIVATE_KEY"]
+
+        Braintree::Customer.create(
+          :email => player.email,
+          :id => player.handle,
+        )
         format.json { render :json => player }
       else
         format.json { render :json => player.errors, :status => 422 }

@@ -40,6 +40,8 @@ GEM
       tzinfo (~> 1.1)
     ansi (1.5.0)
     arel (7.1.1)
+    braintree (2.66.0)
+      builder (>= 2.0.0)
     builder (3.2.2)
     byebug (9.0.0)
     coderay (1.1.1)
@@ -192,6 +194,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  braintree (= 2.66.0)
   byebug (= 9.0.0)
   coffee-rails (= 4.2.1)
   guard (= 2.13.0)
