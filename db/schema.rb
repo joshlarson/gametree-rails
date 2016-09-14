@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20160914191705) do
   create_table "games", force: :cascade do |t|
     t.string   "status"
     t.integer  "cost"
+    t.integer  "score"
     t.integer  "player_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

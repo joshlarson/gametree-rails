@@ -3,6 +3,7 @@ class CreateGames < ActiveRecord::Migration[5.0]
     create_table :games do |t|
       t.string :status
       t.integer :cost
+      t.integer :score
       t.integer :player_id
 
       t.timestamps

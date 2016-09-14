@@ -7,10 +7,19 @@ class GamesController < ApplicationController
         :player => player,
         :status => "in progress",
         :cost => 0,
+        :score => 0,
       )
 
       respond_to do |format|
         format.json { render :json => game, :status => 201 }
+      end
+    end
+  end
+
+  def show
+    in_game_scope(:id => params[:id]) do |game|
+      respond_to do |format|
+        format.json { render :json => game }
       end
     end
   end

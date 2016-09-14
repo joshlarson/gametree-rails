@@ -39,6 +39,17 @@ Cannot create game under non-existent player
     ${resp}=    Create Game    0
     Should be Not Found    ${resp}
 
+Can retrieve a game
+    ${resp}=    Get Game    ${foobar_game1_id}
+    Should be OK    ${resp}
+    Should be equal as strings    ${foobar_player_id}    ${resp.json()["player_id"]}
+    Should be equal as strings    0    ${resp.json()["score"]}
+    Should be equal as strings    in progress    ${resp.json()["status"]}
+
+Trying to retrieve a non-existent game 404's
+    ${resp}=    Get Game    0
+    Should be Not Found    ${resp}
+
 *** Keywords ***
 Gametree Session
     ${headers}=    Create Dictionary    Content-Type=application/json
@@ -61,11 +72,6 @@ Create Player
     [Return]    ${resp}
     ${resp}=    Post Request    gt    /players    {"email": "${email}", "handle": "${handle}"}
 
-Create Game
-    [Arguments]    ${player_id}
-    [Return]    ${resp}
-    ${resp}=    Post Request    gt    /players/${player_id}/games
-
 Get Player
     [Arguments]    ${id}
     [Return]    ${resp}
@@ -76,3 +82,13 @@ Find Player By Email
     [Return]    ${resp}
     ${params}=    Create Dictionary    email=${email}
     ${resp}=    Get Request    gt    /players    params=${params}
+
+Create Game
+    [Arguments]    ${player_id}
+    [Return]    ${resp}
+    ${resp}=    Post Request    gt    /players/${player_id}/games
+
+Get Game
+    [Arguments]    ${game_id}
+    [Return]    ${resp}
+    ${resp}=    Get Request    gt    /games/${game_id}
