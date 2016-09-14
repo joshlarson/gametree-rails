@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
       if player
         format.json { render :json => player }
       else
-        format.json { render :json => {:error => "No players exist with email #{email}"}, :status => 404 }
+        format.json { render :json => {:error => "Player not found"}, :status => 404 }
       end
     end
   end
@@ -32,7 +32,7 @@ class PlayersController < ApplicationController
       if player.valid?
         player.save!
         BraintreeService.new.create_customer(handle, email)
-        format.json { render :json => player }
+        format.json { render :json => player, :status => 201 }
       else
         format.json { render :json => player.errors, :status => 422 }
       end
