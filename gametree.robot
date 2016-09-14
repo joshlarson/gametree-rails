@@ -84,6 +84,14 @@ Charges aggregate
     ${resp}=    Get Game    ${foobar_game1_id}
     Should be equal as strings    ${resp.json()["cost"]}    6
 
+Can mark a game as finished
+    ${resp}=    Finish Game    ${foobar_game1_id}
+    Should be No Content    ${resp}
+
+A finished game should have finished status
+    ${resp}=    Get Game    ${foobar_game1_id}
+    Should be equal as strings    finished    ${resp.json()["status"]}
+
 *** Keywords ***
 Gametree Session
     ${headers}=    Create Dictionary    Content-Type=application/json
@@ -96,6 +104,10 @@ Should be OK
 Should be Created
     [Arguments]    ${resp}
     Should be equal as strings    201    ${resp.status_code}
+
+Should be No Content
+    [Arguments]    ${resp}
+    Should be equal as strings    204    ${resp.status_code}
 
 Should be Not Found
     [Arguments]    ${resp}
@@ -136,3 +148,8 @@ Add Charge To Game
     [Arguments]    ${game_id}    ${cost}
     [Return]    ${resp}
     ${resp}=    Post Request    gt    /games/${game_id}/charge    {"amount":${cost}}
+
+Finish Game
+    [Arguments]    ${game_id}
+    [Return]    ${resp}
+    ${resp}=    Post Request    gt    /games/${game_id}/finish

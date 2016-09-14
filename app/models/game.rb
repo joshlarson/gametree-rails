@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
   module Status
+    FINISHED = "finished"
     IN_PROGRESS = "in progress"
   end
 
