@@ -6,10 +6,10 @@ class BraintreeService
     Braintree::Configuration.private_key = ENV["BT_PRIVATE_KEY"]
   end
 
-  def create_customer(id, email)
+  def create_customer(handle, email)
     Braintree::Customer.create(
       :email => email,
-      :id => id,
+      :id => handle,
     )
   end
 end
