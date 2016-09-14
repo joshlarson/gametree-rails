@@ -5,7 +5,7 @@ class GamesController < ApplicationController
     in_player_scope(:id => params[:player_id]) do |player|
       game = Game.create!(
         :player => player,
-        :status => "in progress",
+        :status => Game::Status::IN_PROGRESS,
         :cost => 0,
         :score => 0,
       )
