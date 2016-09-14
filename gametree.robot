@@ -30,6 +30,15 @@ Trying to retrieve non-existent player by email 404's
     ${resp}=    Find Player By Email    boo@far.com
     Should be Not Found    ${resp}
 
+Can create game
+    ${resp}=    Create Game    ${foobar_player_id}
+    Should be Created    ${resp}
+    Set suite variable    ${foobar_game1_id}    ${resp.json()["id"]}
+
+Cannot create game under non-existent player
+    ${resp}=    Create Game    0
+    Should be Not Found    ${resp}
+
 *** Keywords ***
 Gametree Session
     ${headers}=    Create Dictionary    Content-Type=application/json
@@ -51,6 +60,11 @@ Create Player
     [Arguments]    ${email}    ${handle}
     [Return]    ${resp}
     ${resp}=    Post Request    gt    /players    {"email": "${email}", "handle": "${handle}"}
+
+Create Game
+    [Arguments]    ${player_id}
+    [Return]    ${resp}
+    ${resp}=    Post Request    gt    /players/${player_id}/games
 
 Get Player
     [Arguments]    ${id}
