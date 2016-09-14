@@ -92,6 +92,10 @@ A finished game should have finished status
     ${resp}=    Get Game    ${foobar_game1_id}
     Should be equal as strings    finished    ${resp.json()["status"]}
 
+Cannot finish a game twice
+    ${resp}=    Finish Game    ${foobar_game1_id}
+    Should be Forbidden    ${resp}
+
 *** Keywords ***
 Gametree Session
     ${headers}=    Create Dictionary    Content-Type=application/json
@@ -108,6 +112,10 @@ Should be Created
 Should be No Content
     [Arguments]    ${resp}
     Should be equal as strings    204    ${resp.status_code}
+
+Should be Forbidden
+    [Arguments]    ${resp}
+    Should be equal as strings    403    ${resp.status_code}
 
 Should be Not Found
     [Arguments]    ${resp}
