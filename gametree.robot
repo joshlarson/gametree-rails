@@ -96,6 +96,14 @@ Cannot finish a game twice
     ${resp}=    Finish Game    ${foobar_game1_id}
     Should be Forbidden    ${resp}
 
+Cannot add points to a finished game
+    ${resp}=    Add Points To Game    ${foobar_game1_id}    5
+    Should be Forbidden    ${resp}
+
+Cannot add a charge to a finished game
+    ${resp}=    Add Charge To Game    ${foobar_game1_id}    5
+    Should be Forbidden    ${resp}
+
 *** Keywords ***
 Gametree Session
     ${headers}=    Create Dictionary    Content-Type=application/json
