@@ -3,5 +3,7 @@ Rails.application.routes.draw do
     resources :games, :only => [:create]
   end
 
-  resources :games, :only => [:show]
+  resources :games, :only => [:show] do
+    resource :points, :only => [:create]
+  end
 end

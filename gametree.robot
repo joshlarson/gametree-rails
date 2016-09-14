@@ -50,6 +50,23 @@ Trying to retrieve a non-existent game 404's
     ${resp}=    Get Game    0
     Should be Not Found    ${resp}
 
+Can add points to a game
+    ${resp}=    Add Points To Game    ${foobar_game1_id}    4
+    Should be created    ${resp}
+
+Cannot add points to a non-existent game
+    ${resp}=    Add Points To Game    0    4
+    Should be Not Found    ${resp}
+
+Points show up in the game object
+    ${resp}=    Get Game    ${foobar_game1_id}
+    Should be equal as strings    ${resp.json()["score"]}    4
+
+Points aggregate
+    Add Points To Game    ${foobar_game1_id}    3
+    ${resp}=    Get Game    ${foobar_game1_id}
+    Should be equal as strings    ${resp.json()["score"]}    7
+
 *** Keywords ***
 Gametree Session
     ${headers}=    Create Dictionary    Content-Type=application/json
@@ -92,3 +109,8 @@ Get Game
     [Arguments]    ${game_id}
     [Return]    ${resp}
     ${resp}=    Get Request    gt    /games/${game_id}
+
+Add Points To Game
+    [Arguments]    ${game_id}    ${num_points}
+    [Return]    ${resp}
+    ${resp}=    Post Request    gt    /games/${game_id}/points    {"points":${num_points}}
