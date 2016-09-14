@@ -67,6 +67,23 @@ Points aggregate
     ${resp}=    Get Game    ${foobar_game1_id}
     Should be equal as strings    ${resp.json()["score"]}    7
 
+Can add a charge to a game
+    ${resp}=    Add Charge To Game    ${foobar_game1_id}    5
+    Should be created    ${resp}
+
+Cannot add a charge to a non-existent game
+    ${resp}=    Add Charge To Game    0    5
+    Should be Not Found    ${resp}
+
+Cost shows up in the game object
+    ${resp}=    Get Game    ${foobar_game1_id}
+    Should be equal as strings    ${resp.json()["cost"]}    5
+
+Charges aggregate
+    Add Charge To Game    ${foobar_game1_id}    1
+    ${resp}=    Get Game    ${foobar_game1_id}
+    Should be equal as strings    ${resp.json()["cost"]}    6
+
 *** Keywords ***
 Gametree Session
     ${headers}=    Create Dictionary    Content-Type=application/json
@@ -114,3 +131,8 @@ Add Points To Game
     [Arguments]    ${game_id}    ${num_points}
     [Return]    ${resp}
     ${resp}=    Post Request    gt    /games/${game_id}/points    {"points":${num_points}}
+
+Add Charge To Game
+    [Arguments]    ${game_id}    ${cost}
+    [Return]    ${resp}
+    ${resp}=    Post Request    gt    /games/${game_id}/charge    {"amount":${cost}}

@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   resources :games, :only => [:show] do
     resource :points, :only => [:create]
+    resource :charge, :only => [:create]
   end
 end
