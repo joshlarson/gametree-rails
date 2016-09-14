@@ -2,19 +2,17 @@ class PlayersController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    _respond_with_player Player.where(:email => params[:email]).first
+    in_player_scope(:email => params[:email]) do |player|
+      respond_to do |format|
+        format.json { render :json => player }
+      end
+    end
   end
 
   def show
-    _respond_with_player Player.where(:id => params[:id]).first
-  end
-
-  def _respond_with_player player
-    respond_to do |format|
-      if player
+    in_player_scope(:id => params[:id]) do |player|
+      respond_to do |format|
         format.json { render :json => player }
-      else
-        format.json { render :json => {:error => "Player not found"}, :status => 404 }
       end
     end
   end
