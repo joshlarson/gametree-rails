@@ -30,14 +30,14 @@ Trying to retrieve non-existent player by email 404's
     ${resp}=    Find Player By Email    boo@far.com
     Should be Not Found    ${resp}
 
-Cannot create game under non-existent player
-    ${resp}=    Create Game    0
-    Should be Not Found    ${resp}
-
 Can create game
     ${resp}=    Create Game    ${foobar_player_id}
     Should be Created    ${resp}
     Set suite variable    ${foobar_game1_id}    ${resp.json()["id"]}
+
+Cannot create game under non-existent player
+    ${resp}=    Create Game    0
+    Should be Not Found    ${resp}
 
 Can retrieve a game
     ${resp}=    Get Game    ${foobar_game1_id}
@@ -45,10 +45,6 @@ Can retrieve a game
     Should be equal as strings    ${foobar_player_id}    ${resp.json()["player_id"]}
     Should be equal as strings    0    ${resp.json()["score"]}
     Should be equal as strings    in progress    ${resp.json()["status"]}
-
-Cannot create a game while another game is in progress
-    ${resp}=    Create Game    ${foobar_player_id}
-    Should be Forbidden    ${resp}
 
 Trying to retrieve a non-existent game 404's
     ${resp}=    Get Game    0
