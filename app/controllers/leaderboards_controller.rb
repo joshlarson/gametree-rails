@@ -1,6 +1,5 @@
 class LeaderboardsController < ApplicationController
   def show
-    #FIGURE THIS OUT LATER
-    @players = Player.all
+    @players = Player.all.sort_by(&:high_score).reverse.take(25)
   end
 end
