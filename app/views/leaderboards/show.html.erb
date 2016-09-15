@@ -1,0 +1,6 @@
+<h1>
+  Leaderboard
+</h1>
+<% @players.each do |player| %>
+  <p><%= player.handle %>: <%= player.high_score %></p>
+<% end %>

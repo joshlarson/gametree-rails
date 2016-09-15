@@ -8,4 +8,6 @@ Rails.application.routes.draw do
     resource :charge, :only => [:create]
     resource :finish, :only => [:create]
   end
+
+  resource :leaderboard, :only => [:show]
 end
