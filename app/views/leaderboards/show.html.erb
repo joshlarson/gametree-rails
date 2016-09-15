@@ -1,6 +1,19 @@
-<h1>
-  Leaderboard
-</h1>
-<% @players.each do |player| %>
-  <p><%= player.handle %>: <%= player.high_score %></p>
-<% end %>
+<div class="container">
+  <h1>Leaderboard</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Handle</th>
+        <th>High Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @players.each do |player| %>
+        <tr>
+          <td><%= player.handle %></td>
+          <td><%= player.high_score %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
